@@ -1,1 +1,9 @@
-
+[
+  {
+    "id": "prueba",
+    "titulo": "prueba",
+    "fecha": "14/12",
+    "descripcion": "Haz el juego en el lenguaje que quieras.",
+    "detalles": "Crea un juego de piedra, papel o tijera en el lenguaje que prefieras. Cuando lo tengas, súbelo al canal #retos del Discord con una captura o el código. Pueden participar todos los niveles."
+  }
+]

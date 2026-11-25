@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Evento · Void Lab</title>
+<meta name="theme-color" content="#6d4aff">
+<style>
+:root{--bg:#f6f5fb;--card:#ffffff;--text:#1b1a24;--muted:#5d5b70;--accent:#6d4aff;--line:#e2dff0}
+@media (prefers-color-scheme:dark){:root{--bg:#0e0d16;--card:#181625;--text:#ece9f8;--muted:#9a97b3;--accent:#8f74ff;--line:#2a2740;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;padding:40px 20px}
+main{max-width:720px;margin:0 auto}
+a{color:var(--accent)}
+h1{margin:16px 0 10px}
+.fecha{display:inline-block;padding:2px 12px;border-radius:999px;background:var(--accent);color:#fff;font-size:.9rem}
+p{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:20px}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:12px 26px;border-radius:999px;font-weight:600;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+  <a href="index.html#eventos">← Volver a eventos</a>
+  <h1 id="titulo">Cargando...</h1>
+  <span class="fecha" id="fecha" hidden></span>
+
+  <div class="card">
+    <p id="detalles"></p>
+    <p>Si quieres participar en este evento, únete a nuestro Discord:</p>
+    <a class="btn" href="https://discord.gg/RWSbyEYcP7" target="_blank" rel="noopener">Unirme a Discord</a>
+  </div>
+</main>
+
+<script>
+  (async () => {
+    const id = new URLSearchParams(location.search).get("id");
+    const titulo = document.getElementById("titulo");
+    try {
+      const eventos = await (await fetch("eventos.json")).json();
+      const e = eventos.find((x) => x.id === id);
+      if (!e) throw new Error("no existe");
+
+      document.title = e.titulo + " · Void Lab";
+      titulo.textContent = e.titulo;
+
+      const fecha = document.getElementById("fecha");
+      fecha.textContent = e.fecha;
+      fecha.hidden = false;
+
+      document.getElementById("detalles").textContent = e.detalles || e.descripcion;
+    } catch (error) {
+      titulo.textContent = "Evento no encontrado";
+      document.getElementById("detalles").textContent = "Puede que el enlace esté mal o que el evento ya no exista.";
+    }
+  })();
+</script>
+</body>
+</html>

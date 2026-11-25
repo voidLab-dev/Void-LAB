@@ -93,23 +93,15 @@ footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.9rem;bo
   <h2>Eventos</h2>
   <p>Retos, charlas y actividades de la comunidad.</p>
 
-  <div id="lista-eventos"></div>
+  <div class="empty" id="caja-eventos">
+    <div id="lista-eventos" hidden></div>
 
-  <div class="empty" id="eventos-vacio" hidden>
-    <div class="mascot" role="img" aria-label="Mascota de Void Lab"></div>
-    <h3>Aún no hay nada</h3>
-    <p>Cuando haya un evento programado, lo verás aquí.</p>
+    <div id="eventos-vacio">
+      <div class="mascot" role="img" aria-label="Mascota de Void Lab"></div>
+      <h3>Aún no hay nada</h3>
+      <p>Cuando haya un evento programado, lo verás aquí.</p>
+    </div>
   </div>
-</section>
-
-<section id="publicaciones">
-<h2>Publicaciones</h2>
-<p>Novedades, proyectos y cosas que vamos subiendo.</p>
-<div class="empty">
-<div class="mascot" role="img" aria-label="Mascota de Void Lab"></div>
-<h3>Por aquí no anda nadie… todavía</h3>
-<p>Muy pronto subiremos las primeras publicaciones.</p>
-</div>
 </section>
 
 <footer>© Void Lab · Desarrollado por Ikers.S</footer>
@@ -128,14 +120,27 @@ footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.9rem;bo
         return;
       }
 
+     <script>
+  const DISCORD = "https://discord.gg/RWSbyEYcP7";
+
+  async function cargarEventos() {
+    const lista = document.getElementById("lista-eventos");
+    const vacio = document.getElementById("eventos-vacio");
+
+    try {
+      const respuesta = await fetch("eventos.json");
+      const eventos = await respuesta.json();
+      if (!eventos.length) return;
+
       eventos.forEach((e) => {
-        const tarjeta = document.createElement("article");
+        const tarjeta = document.createElement("a");
         tarjeta.className = "evento";
+        tarjeta.href = "evento.html?id=" + encodeURIComponent(e.id);
 
         const titulo = document.createElement("h3");
         titulo.textContent = e.titulo;
 
-        const fecha = document.createElement("p");
+        const fecha = document.createElement("span");
         fecha.className = "evento-fecha";
         fecha.textContent = e.fecha;
 
@@ -145,13 +150,24 @@ footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.9rem;bo
         tarjeta.append(titulo, fecha, descripcion);
         lista.appendChild(tarjeta);
       });
+
+      const unete = document.createElement("p");
+      unete.className = "evento-unete";
+      unete.append("¿Quieres participar? ");
+      const enlace = document.createElement("a");
+      enlace.href = DISCORD;
+      enlace.textContent = "Únete a nuestro Discord";
+      unete.append(enlace);
+      lista.appendChild(unete);
+
+      vacio.hidden = true;
+      lista.hidden = false;
     } catch (error) {
-      vacio.hidden = false;
+      /* si falla, se queda Boina con "Aún no hay nada" */
     }
   }
 
   cargarEventos();
-    
 </script>
 </body>
 </html>

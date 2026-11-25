@@ -90,13 +90,16 @@ footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.9rem;bo
 </section>
 
 <section id="eventos">
-<h2>Eventos</h2>
-<p>Retos, charlas y actividades de la comunidad.</p>
-<div class="empty">
-<div class="mascot" role="img" aria-label="Mascota de Void Lab"></div>
-<h3>Aún no hay nada</h3>
-<p>Cuando haya un evento programado, lo verás aquí.</p>
-</div>
+  <h2>Eventos</h2>
+  <p>Retos, charlas y actividades de la comunidad.</p>
+
+  <div id="lista-eventos"></div>
+
+  <div class="empty" id="eventos-vacio" hidden>
+    <div class="mascot" role="img" aria-label="Mascota de Void Lab"></div>
+    <h3>Aún no hay nada</h3>
+    <p>Cuando haya un evento programado, lo verás aquí.</p>
+  </div>
 </section>
 
 <section id="publicaciones">
@@ -110,5 +113,45 @@ footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.9rem;bo
 </section>
 
 <footer>© Void Lab · Desarrollado por Ikers.S</footer>
+
+  <script>
+  async function cargarEventos() {
+    const lista = document.getElementById("lista-eventos");
+    const vacio = document.getElementById("eventos-vacio");
+
+    try {
+      const respuesta = await fetch("eventos.json");
+      const eventos = await respuesta.json();
+
+      if (!eventos.length) {
+        vacio.hidden = false;
+        return;
+      }
+
+      eventos.forEach((e) => {
+        const tarjeta = document.createElement("article");
+        tarjeta.className = "evento";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = e.titulo;
+
+        const fecha = document.createElement("p");
+        fecha.className = "evento-fecha";
+        fecha.textContent = e.fecha;
+
+        const descripcion = document.createElement("p");
+        descripcion.textContent = e.descripcion;
+
+        tarjeta.append(titulo, fecha, descripcion);
+        lista.appendChild(tarjeta);
+      });
+    } catch (error) {
+      vacio.hidden = false;
+    }
+  }
+
+  cargarEventos();
+    
+</script>
 </body>
 </html>

@@ -1,15 +1,9 @@
 [
   {
-    "id": "reto-piedra-papel-tijera",
-    "titulo": "Reto: piedra, papel o tijera",
-    "fecha": "5 dic",
-    "descripcion": "Haz el juego en el lenguaje que quieras.",
-    "detalles": "Texto largo que sale en la página del evento."
+    "id": "",
+    "titulo": "",
+    "fecha": "",
+    "descripcion": "",
+    "detalles": ""
   },
-  {
-    "id": "concurso-de-errores",
-    "titulo": "Concurso de errores",
-    "fecha": "12 dic",
-    "descripcion": "Cuenta el bug más absurdo que has tenido."
-  }
-]
+ 
